@@ -3,4 +3,10 @@
 
 #include <iostream>
 
+class ScalarConverter
+{
+    public :
+        static void Convert(std::string nb);
+};
+
 #endif

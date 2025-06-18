@@ -1,9 +1,22 @@
 #include "Scalar.hpp"
 
-class ScalarConverter
+
+void ScalarConverter::Convert(std::string nb)
 {
-    public :
-        static void Convert(std::string );
-};
+    if (nb.empty())
+        return ;
+    if (nb.length() == 1)
+    {
+
+    }
+    else if (nb[nb.length() - 1] == 'f' && nb.find('.') != std::string::npos)
+    {
+
+    }
+    else if (nb.find('.') != std::string::npos)
+    {
+
+    }
 
 
+}
