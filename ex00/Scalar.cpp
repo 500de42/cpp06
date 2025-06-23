@@ -52,17 +52,17 @@ void PrintChar(std::string nb, int c)
         std::cout << "num: " << num << std::endl;
     if ((nb[0] < 127 && nb[0] > 31) && (c == 1))
     {
-        std::cout << "Chafr: " << nb[0] << std::endl;
+        std::cout << "1Char: " << nb[0] << std::endl;
         return ;
     }
-    if ((num < 127 && num > 31) && (c == 2))
+    else if ((num < 127 && num > 31) && (c == 2))
     {
-        std::cout << "Chagr: " << (char)num << std::endl;
+        std::cout << "2Char: " << (char)num << std::endl;
         return ;
     }
-    if ((nb[0] > 31 && nb[0] < 127) && !nb[1])//num 127 32
+    else if ((nb[0] > 31 && nb[0] < 127) && !nb[1] && !isdigit(nb[0]))//num 127 32
     {
-        std::cout << "Chyar: " << (char)nb[0] << std::endl;
+        std::cout << "3Char: " << (char)nb[0] << std::endl;
     }
     else
         std::cout << "Char not printable\n"; 
@@ -100,7 +100,6 @@ void PrintFloat(std::string nb, int c)
 
 void PrintAllChar(std::string nb)
 {
-    std::cout << "fbfbfb\n";
     PrintChar(nb, 1);
     PrintInt(nb, 1);
     PrintFloat(nb, 1);
@@ -138,7 +137,7 @@ int parse(std::string nb)
     int point = 0;
     int tiret = 0;
     int f = 0;
-    if (((nb == "-inff" || nb == "+inff" || nb == "nanf" || nb == "nan" || nb == "+inf" || nb == "-inf")))
+    if (((nb == "inff" || nb == "inf" ||nb == "-inff" || nb == "+inff" || nb == "nanf" || nb == "nan" || nb == "+inf" || nb == "-inf")))
         return 1;
     for(std::string::iterator i = nb.begin(); i < nb.end(); i++)
     {
@@ -182,7 +181,7 @@ void ScalarConverter::Convert(std::string nb)
         std::cout << "Char: impossible\nInt: impossible\nFloat: impossible\nDouble: impossible\n";
         return ;
     }
-    if ((nb.length() == 1) && (nb[0] > 31 && nb[0] < 127))
+    if ((nb.length() == 1) && (nb[0] > 31 && nb[0] < 127) && !isdigit(nb[0]))
     {std::cout << "1\n"; 
         PrintAllChar(nb);
     }
