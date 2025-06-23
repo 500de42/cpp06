@@ -27,15 +27,20 @@ void PrintInt(std::string nb, int c)
 {
     if (c == 1)
     {
-        std::cout << (int)nb[0] << std::endl;
+        std::cout << "int: " << (int)nb[0] << std::endl;
+        return ;
+    }
+    else if ((nb == "-inff" || nb == "+inff" || nb == "nanf" || nb == "nan" || nb == "+inf" || nb == "-inf"))
+    {
+        std::cout << "Int not printable" << std::endl;
         return ;
     }
     long num = atol(nb.c_str());
-    if (!(num > -2147483648 && num < 2147483647))
+    if (num < -2147483648 || num > 2147483647)
         std::cout << "limit of int exceeded\n";
     else if (!nuum(nb))
     {
-        std::cout << nuum(nb) << "Impossible Convertion\n";
+        std::cout << nuum(nb) << "int: Impossible Convertion\n";
     }
     else
         std::cout << "Int: " << num << std::endl;
@@ -43,14 +48,21 @@ void PrintInt(std::string nb, int c)
 
 void PrintChar(std::string nb, int c)
 {
-    if ((atoi(nb.c_str()) < 127 && atoi(nb.c_str()) > 31) && (c == 1 && atoi(nb.c_str()) != 0))
+    long num = atoi(nb.c_str());
+        std::cout << "num: " << num << std::endl;
+    if ((nb[0] < 127 && nb[0] > 31) && (c == 1))
     {
-        std::cout << "Char: " << (char)atoi(nb.c_str()) << std::endl;
+        std::cout << "Chafr: " << nb[0] << std::endl;
         return ;
     }
-    if (nb[0] > 31 && nb[0] < 127 && !nb[1])
+    if ((num < 127 && num > 31) && (c == 2))
     {
-        std::cout << "Char: " << (char)nb[0] << std::endl;
+        std::cout << "Chagr: " << (char)num << std::endl;
+        return ;
+    }
+    if ((nb[0] > 31 && nb[0] < 127) && !nb[1])//num 127 32
+    {
+        std::cout << "Chyar: " << (char)nb[0] << std::endl;
     }
     else
         std::cout << "Char not printable\n"; 
@@ -65,10 +77,10 @@ void PrintDouble(std::string nb, int c)
     }
     char *endptr;
     double d = std::strtod(nb.c_str(), &endptr);
-    if (*endptr != '\0')
-        std::cout << "Impossible conversion for double\n";
-    else
+    if (*endptr == 'f' || *endptr == '\0')
         std::cout << "Double: " << std::fixed << std::setprecision(1) << d << std::endl;
+    else if (*endptr != '\0')
+        std::cout << "Impossible conversion for double\n";
 }
 
 void PrintFloat(std::string nb, int c)
@@ -80,15 +92,15 @@ void PrintFloat(std::string nb, int c)
     }
     char *endptr;
     float d = std::strtof(nb.c_str(), &endptr);
-    std::cout << *endptr << std::endl;
-    // if (*endptr + 1 == '\0' && *endptr == 'f')
+    if (*endptr == 'f' || *endptr == '\0')
         std::cout << "Float: " << std::fixed << std::setprecision(1) << d << "f" << std::endl;
-    if (*endptr != '\0')
+    else if (*endptr != '\0')
         std::cout << "Impossible conversion for float\n";
 }
 
 void PrintAllChar(std::string nb)
 {
+    std::cout << "fbfbfb\n";
     PrintChar(nb, 1);
     PrintInt(nb, 1);
     PrintFloat(nb, 1);
@@ -97,15 +109,16 @@ void PrintAllChar(std::string nb)
 
 void PrintAllInt(std::string nb)
 {
-    PrintChar(nb, 1);
+    
+    PrintChar(nb, 2);
     PrintInt(nb, 0);
     PrintFloat(nb, 0);
     PrintDouble(nb, 0);
 }
 
-void PrintAll(std::string nb)
+void PrintAllDoubleFLoat(std::string nb)
 {
-    PrintChar(nb,1);
+    PrintChar(nb,2);
     PrintInt(nb, 0);
     PrintFloat(nb, 0);
     PrintDouble(nb, 0);
@@ -119,25 +132,71 @@ void PrintAllFloat(std::string nb)
     PrintDouble(nb, 0);
 }
 
+
+int parse(std::string nb)
+{
+    int point = 0;
+    int tiret = 0;
+    int f = 0;
+    if (((nb == "-inff" || nb == "+inff" || nb == "nanf" || nb == "nan" || nb == "+inf" || nb == "-inf")))
+        return 1;
+    for(std::string::iterator i = nb.begin(); i < nb.end(); i++)
+    {
+        if (!(*i >= '0' && *i <= '9') && nb.length() > 1)
+        {
+            if (*i == '.')
+            {
+                point++;
+                continue;
+            }
+            else if (*i == '-')
+            {
+                if (*i != nb[0])
+                    return 0;
+                tiret++;
+                continue;
+            }
+            else if (*i == 'f')
+            {
+                if ((*i != nb[nb.length() - 1]))
+                    return 0;
+                f++;
+            }
+            else
+            {
+               return 0;
+            }
+        }
+    }
+    if (point > 1 || tiret > 1 || f > 1)
+        return 0;
+    return 1;
+}
+
 void ScalarConverter::Convert(std::string nb)
 {
     if (nb.empty())
         return ;
-    if ((nb.length() == 1))
+    if (!parse(nb))
     {
+        std::cout << "Char: impossible\nInt: impossible\nFloat: impossible\nDouble: impossible\n";
+        return ;
+    }
+    if ((nb.length() == 1) && (nb[0] > 31 && nb[0] < 127))
+    {std::cout << "1\n"; 
         PrintAllChar(nb);
     }
-    else if (!(nb[nb.length() - 1] == 'f' && nb.find('.') != std::string::npos))
-    {
-        PrintAll(nb);
+    else if (nb[nb.length() - 1] != 'f' && nb.find('.') == std::string::npos)//int
+    {std::cout << "12\n";
+        PrintAllInt(nb);
     }
-    else if ((nb[nb.length() - 1] == 'f' && nb.find('.') != std::string::npos)
+    else if ((nb[nb.length() - 1] == 'f' && nb.find('.') != std::string::npos)//float
         || (nb == "-inff" || nb == "+inff" || nb == "nanf"))
-    {
-        PrintAll(nb);
+    {std::cout << "13\n";
+        PrintAllDoubleFLoat(nb);
     }
-    else if (nb.find('.') != std::string::npos || (nb == "nan" || nb == "+inf" || nb == "-inf"))
-    {
-        PrintAll(nb);
+    else if (nb.find('.') != std::string::npos || (nb == "nan" || nb == "+inf" || nb == "-inf"))//double
+    {std::cout << "15\n";
+        PrintAllDoubleFLoat(nb);
     }
 }
