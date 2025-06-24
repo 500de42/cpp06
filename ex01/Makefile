@@ -1,6 +1,6 @@
 SRC = main.cpp Serializer.cpp
 NAME = Serializer
-FLAGS = c++ -Wall -Werror -Wextra -std=c++11
+FLAGS = c++ -Wall -Werror -Wextra -std=c++98
 
 all : $(NAME)
 

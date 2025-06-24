@@ -1,19 +1,18 @@
 #ifndef SCALAR_HPP
 #define SCALAR_HPP
+# include <stdint.h>
+// #include <cstdint>
+# include <iostream>
+# include "Data.hpp"
 
-#include <cstdint>
-#include <iostream>
-#include "Data.hpp"
 
-typedef struct Data
-{
-}   Data;
 
 class Serializer
 {
     public:
         static uintptr_t serialize(Data* ptr);
         static Data* deserialize(uintptr_t raw);
+    private :
         Serializer();
         ~Serializer();
         Serializer(const Serializer &copy);

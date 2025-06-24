@@ -3,20 +3,15 @@
 int main ()
 {
     Data obj;
-    Data ii;
-    Data *iii =  &ii;
+    obj.name = "kalvin";
+    obj.age = 24;
     Data *data = &obj;
     uintptr_t d;
-    // Serializer n;
-    // Serializer x = n;
-    // Serializer j (n);
-
     
-    uintptr_t j = Serializer::serialize(iii);
     d = Serializer::serialize(data);
-    Data *copy = Serializer::deserialize(j);
+    Data *copy = Serializer::deserialize(d);
     if (copy == data)
-        std::cout << "OK – même adresse : " << data << "\n" << copy<< '\n';
+        std::cout << "OK – même adresse : " << data << "\n" << copy << "\n" << copy->age << "\n" << copy->name << '\n';
     else
         std::cout << "Erreur : adresses différentes\n";
 }

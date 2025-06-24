@@ -1,8 +1,11 @@
-#ifndef SCALAR_HPP
-#define SCALAR_HPP
+#ifndef DATA_HPP
+#define DATA_HPP
 
-#include <cstdint>
-
-
+typedef struct Data
+{
+	std::string name;
+	int age;
+	std::string sername;
+}   Data;
 
 #endif
