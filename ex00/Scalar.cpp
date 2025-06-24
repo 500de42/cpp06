@@ -52,17 +52,17 @@ void PrintChar(std::string nb, int c)
         std::cout << "num: " << num << std::endl;
     if ((nb[0] < 127 && nb[0] > 31) && (c == 1))
     {
-        std::cout << "1Char: " << nb[0] << std::endl;
+        std::cout << "Char: " << nb[0] << std::endl;
         return ;
     }
     else if ((num < 127 && num > 31) && (c == 2))
     {
-        std::cout << "2Char: " << (char)num << std::endl;
+        std::cout << "Char: " << (char)num << std::endl;
         return ;
     }
     else if ((nb[0] > 31 && nb[0] < 127) && !nb[1] && !isdigit(nb[0]))//num 127 32
     {
-        std::cout << "3Char: " << (char)nb[0] << std::endl;
+        std::cout << "Char: " << (char)nb[0] << std::endl;
     }
     else
         std::cout << "Char not printable\n"; 
@@ -78,7 +78,7 @@ void PrintDouble(std::string nb, int c)
     char *endptr;
     double d = std::strtod(nb.c_str(), &endptr);
     if (*endptr == 'f' || *endptr == '\0')
-        std::cout << "Double: " << std::fixed << std::setprecision(1) << d << std::endl;
+        std::cout << "Double: " << std::scientific << std::setprecision(1) << d << std::endl;
     else if (*endptr != '\0')
         std::cout << "Impossible conversion for double\n";
 }
@@ -93,7 +93,7 @@ void PrintFloat(std::string nb, int c)
     char *endptr;
     float d = std::strtof(nb.c_str(), &endptr);
     if (*endptr == 'f' || *endptr == '\0')
-        std::cout << "Float: " << std::fixed << std::setprecision(1) << d << "f" << std::endl;
+        std::cout << "Float: " << std::scientific << std::setprecision(1) << d << "f" << std::endl;
     else if (*endptr != '\0')
         std::cout << "Impossible conversion for float\n";
 }
@@ -182,20 +182,41 @@ void ScalarConverter::Convert(std::string nb)
         return ;
     }
     if ((nb.length() == 1) && (nb[0] > 31 && nb[0] < 127) && !isdigit(nb[0]))
-    {std::cout << "1\n"; 
+    { 
         PrintAllChar(nb);
     }
     else if (nb[nb.length() - 1] != 'f' && nb.find('.') == std::string::npos)//int
-    {std::cout << "12\n";
+    {
         PrintAllInt(nb);
     }
     else if ((nb[nb.length() - 1] == 'f' && nb.find('.') != std::string::npos)//float
         || (nb == "-inff" || nb == "+inff" || nb == "nanf"))
-    {std::cout << "13\n";
+    {
         PrintAllDoubleFLoat(nb);
     }
     else if (nb.find('.') != std::string::npos || (nb == "nan" || nb == "+inf" || nb == "-inf"))//double
-    {std::cout << "15\n";
+    {
         PrintAllDoubleFLoat(nb);
     }
+}
+
+ScalarConverter::ScalarConverter()
+{
+
+}
+
+ScalarConverter::ScalarConverter(const ScalarConverter &copy)
+{
+    (void)copy;
+}
+
+ScalarConverter::~ScalarConverter()
+{
+
+}
+
+ScalarConverter &ScalarConverter::operator=(const ScalarConverter &src)
+{
+    (void)src;
+    return *this;
 }

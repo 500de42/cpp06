@@ -14,7 +14,10 @@ class ScalarConverter
         // bool IsDouble;
         // bool IsFloat;
         // bool IsChar;
-        
+        ScalarConverter();
+        ~ScalarConverter();
+        ScalarConverter(const ScalarConverter &copy);
+        ScalarConverter &operator=(const ScalarConverter &src); 
 };
 
 #endif
